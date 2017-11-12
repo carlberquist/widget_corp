@@ -1,6 +1,5 @@
 <?php
-
-$pageId = basename($_SERVER['PHP_SELF']);
+$pageId = 'content.php'; //basename($_SERVER['PHP_SELF']);
 $sel_subj = array_exists($_GET,'subj', "");
 $sel_page = array_exists($_GET,'page', "");
 

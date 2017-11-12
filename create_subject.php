@@ -8,7 +8,7 @@ $visible = array_exists($_POST,'visible', NULL);
 
 $required_fields = array('menu_name', 'position', 'visible');
 if ($error = check_field_length($required_fields, 20)){
-	redirect_to("Location: " . add_or_update_params("../new_subject.php", 'error', $error) );
+	redirect_to("Location: " . add_or_update_params("../widget_corp/new_subject.php", 'error', $error) );
 }
 
 $menu_name = mysqli_real_escape_string($connection, $menu_name);

@@ -5,8 +5,6 @@
 	<tr>
 		<td id="navigation">
 			<?php  include("includes/pages/navigation.php"); ?>
-			<br />
-			<a href="new_subject.php">+ Add a new subject</a>
 		</td>
 		<td id="page">
 			<h2>Content Area</h2>

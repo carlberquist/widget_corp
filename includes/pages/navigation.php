@@ -17,5 +17,12 @@ while ($subject = mysqli_fetch_array($subject_set)) {
     }
     $output .= "</ul>";
 }
-$output .= "</ul>";
+$output .= "<br />";
+$output .= "<ul class=\"subjects\"><a href=\"new_subject.php\">+ Add a new subject</a>";
+$output .= "<br />";
+$output .= "<a href=\"new_page.php\">+ Add a new page</a>";
+$output .= "<br />";
+$output .= "<a href=\"edit_subject.php\">+ Edit a subject</a>";
+$output .= "<br />";
+$output .= "<a href=\"edit_page.php\">+ Edit a page</a></ul>";
 echo $output;

@@ -10,7 +10,7 @@
 			<h2>Add Subject</h2>
 			<?php  
 			if ($error = array_exists($_GET,'error', NULL)){
-				echo "<div class=\"error\">Please fill in field {$_GET['error']}</div>";
+				echo "<div class=\"error\">Please fill in field " . $error . "</div>";
 			}
 			?>
 			<form action="create_subject.php" method="post">

@@ -7,7 +7,9 @@ $position = array_exists($_POST,'position', NULL);
 $visible = array_exists($_POST,'visible', NULL);
 
 $required_fields = array('menu_name', 'position', 'visible');
-check_required_fields($required_fields, 'new_subject.php');
+if ($error = check_field_length($required_fields, 20)){
+	redirect_to("Location: " . add_or_update_params("../new_subject.php", 'error', $error) );
+}
 
 $menu_name = mysqli_real_escape_string($connection, $menu_name);
 $position = mysqli_real_escape_string($connection, $position);

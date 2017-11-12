@@ -83,7 +83,7 @@ function check_required_fields($required_fields)
 }
 function check_field_length($required_fields, $field_legnth)
 {
-    if ($fields = check_required_fields($required_fields) === false) {
+    if ($fields = check_required_fields($required_fields)) {
         return $fields;
     }
     $fields = "";

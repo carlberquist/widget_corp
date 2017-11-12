@@ -9,9 +9,9 @@
         </td>
         <td id="page">
             <?php
-            if (array_exists($_GET, 'subject', false)) {
+            if (array_exists('subject', $_GET, false)) {
                 include("includes/pages/forms/edit_subject.php");
-            } elseif (array_exists($_GET, 'page', false)) {
+            } elseif (array_exists('page', $_GET, false)) {
                 include("includes/pages/forms/edit_page.php");
             }
             ?>

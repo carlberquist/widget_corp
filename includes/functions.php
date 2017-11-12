@@ -48,9 +48,9 @@ function get_page_by_id()
         }
     }
 }
-function array_exists($array = null, $key, $defaultValue = null)
+function array_exists($key, $array = null, $defaultValue = null)
 {
-    if (!is_null($array) && array_key_exists($key, $array)) {
+    if (is_array($array) && array_key_exists($key, $array)) {
         $value = $array[$key];
         return isset($value) ? $value : $defaultValue;
     }
@@ -67,7 +67,7 @@ function check_required_fields($required_fields)
 {
     $fields = "";
     foreach ($required_fields as $key => $value) {
-        if (array_exists($_POST, $value, null) === null || empty($_POST[$value])) {
+        if (array_exists($value, $_POST, null) === null || empty($_POST[$value])) {
             if (empty($fields)) {
                 $fields = $value;
             } else {
@@ -105,18 +105,18 @@ function check_field_length($required_fields, $field_legnth)
 function add_or_update_params($url, $key, $value)
 {
     $a = parse_url($url);
-    $query = array_exists($a, 'query', '');
+    $query = array_exists('query', $a, '');
     parse_str($query, $params);
     $params[$key] = $value;
     $query = http_build_query($params);
     $result = '';
-    if (array_exists($a, 'scheme', false)) {
+    if (array_key_exists('scheme', $a)) {
         $result .= $a['scheme'] . ':';
     }
-    if (array_exists($a, 'host', false)) {
+    if (array_key_exists('host', $a)) {
         $result .= '//' . $a['host'];
     }
-    if (array_exists($a, 'path', false)) {
+    if (array_key_exists('path', $a)) {
         $result .=  $a['path'];
     }
     if ($query) {

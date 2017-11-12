@@ -6,8 +6,8 @@ $selected_subject_position = $selected_subject['position'];
 ?>
 
 <h2>Edit Subject <?php echo "{$selected_subject_menu_name}"; ?></h2>
-<form action="<?php echo add_or_update_params('edit_subject.php', 'subject', array_exists($_GET, 'subject', ''));?>" method="post">
-				<p>Subject name: <input id="menu_name" type="text" name="menu_name" value="<?php echo "{$selected_subject_menu_name}"; ?>" /></p>
+<form action="<?php echo add_or_update_params('edit_subject.php', 'subject', array_exists('subject', $_GET, ''));?>" method="post">
+                <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="<?php echo "{$selected_subject_menu_name}"; ?>" /></p>
                 <p>Position:
                     <select name="position">
                         <?php

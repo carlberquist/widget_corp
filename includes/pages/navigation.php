@@ -1,7 +1,7 @@
 <?php
 $pageId = 'edit.php'; //basename($_SERVER['PHP_SELF']);
-$sel_subj = array_exists($_GET, 'subject', "");
-$sel_page = array_exists($_GET, 'page', "");
+$sel_subj = array_exists('subject', $_GET, "");
+$sel_page = array_exists('page', $_GET, "");
 
 $output = '<ul class="subjects">';
 $subject_set = get_all_subjects();
@@ -17,12 +17,11 @@ while ($subject = mysqli_fetch_array($subject_set)) {
     }
     $output .= "</ul>";
 }
+$selected_subject = (array_key_exists('addSubject', $_GET)) ? "class = \"selected\"" : "";
+$selected_page = (array_key_exists('addPage', $_GET)) ? "class = \"selected\"" : "";
 $output .= "<br />";
-$output .= "<ul class=\"subjects\"><a href=\"new_subject.php\">+ Add a new subject</a>";
-$output .= "<br />";
-$output .= "<a href=\"new_page.php\">+ Add a new page</a>";
-$output .= "<br />";
-$output .= "<a href=\"edit_subject.php\">+ Edit a subject</a>";
-$output .= "<br />";
-$output .= "<a href=\"edit_page.php\">+ Edit a page</a></ul>";
+$output .= "<ul class=\"subjects\">";
+$output .= "<li {$selected_subject}><a href=\"" .add_or_update_params('new_subject.php', 'addSubject', 0) ."\">+ New subject</a></li>";
+$output .= "<li {$selected_page}><a {$selected_page} href=\"" .add_or_update_params('new_page.php', 'addPage', 0) ."\">+ New page</a></li>";
+$output .= "</ul>";
 echo $output;

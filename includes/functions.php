@@ -105,22 +105,24 @@ function check_field_length($required_fields, $field_legnth)
 function add_or_update_params($url, $key, $value)
 {
     $a = parse_url($url);
-    $query = $a['query'] ? $a['query'] : '';
+    $query = array_exists($a, 'query', false);
     parse_str($query, $params);
     $params[$key] = $value;
     $query = http_build_query($params);
     $result = '';
-    if ($a['scheme']) {
+    if (array_exists($a, 'scheme', false)) {
         $result .= $a['scheme'] . ':';
     }
-    if ($a['host']) {
+    if (array_exists($a, 'host', false)) {
         $result .= '//' . $a['host'];
     }
-    if ($a['path']) {
+    if (array_exists($a, 'path', false)) {
         $result .=  $a['path'];
     }
     if ($query) {
         $result .=  '?' . $query;
+    }else{
+        $result .= '&' . $query;
     }
     return $result;
 }

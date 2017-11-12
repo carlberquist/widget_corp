@@ -9,6 +9,7 @@
 		<td id="page">
 			<h2>Add Subject</h2>
 			<?php  
+			//change added
 			if ($error = array_exists($_GET,'error', NULL)){
 				echo "<div class=\"error\">Please fill in field " . $error . "</div>";
 			}

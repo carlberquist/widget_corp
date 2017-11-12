@@ -105,7 +105,7 @@ function check_field_length($required_fields, $field_legnth)
 function add_or_update_params($url, $key, $value)
 {
     $a = parse_url($url);
-    $query = array_exists($a, 'query', false);
+    $query = array_exists($a, 'query', '');
     parse_str($query, $params);
     $params[$key] = $value;
     $query = http_build_query($params);
@@ -121,8 +121,6 @@ function add_or_update_params($url, $key, $value)
     }
     if ($query) {
         $result .=  '?' . $query;
-    }else{
-        $result .= '&' . $query;
     }
     return $result;
 }

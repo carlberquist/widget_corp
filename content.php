@@ -1,21 +1,25 @@
 <?php require_once("includes/connection.php"); ?>
 <?php require_once("includes/functions.php"); ?>
-<?php include("includes/pages/header.php"); ?>
+<?php include("includes/pages/header.php");
+?>
 <table id="structure">
     <tr>
         <td id="navigation">
             <?php  include("includes/pages/navigation.php"); ?>
         </td>
         <td id="page">
-            <h2>Content Area</h2>
-            <h2><?php $subject_menu = get_subject_by_id();
-            echo array_exists('menu_name', $subject_menu, ""); ?></h2>          
-            <h3><?php $page_menu = get_page_by_id();
-            echo array_exists('menu_name', $page_menu, ""); ?></h3>
-            <div class="page-content">
-                <p><?php $page_content = get_page_by_id();
-                echo array_exists('content', $page_content, ""); ?></p>
-            </div>
+        <h2>Content Area</h2>
+            <?php
+            if (array_key_exists('subject', $_GET)) {
+                include("includes/pages/forms/edit_subject.php");
+            } elseif (array_key_exists('page', $_GET)) {
+                include("includes/pages/forms/edit_page.php");
+            } elseif (array_key_exists('addPage', $_GET)) {
+                include("includes/pages/forms/new_page.php");
+            } elseif (array_key_exists('addSubject', $_GET)) {
+                include("includes/pages/forms/new_subject.php");
+            }
+            ?>
         </td>
     </tr>
 </table>

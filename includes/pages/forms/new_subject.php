@@ -1,12 +1,3 @@
-<?php require_once("includes/connection.php"); ?>
-<?php require_once("includes/functions.php"); ?>
-<?php include("includes/pages/header.php"); ?>
-<table id="structure">
-    <tr>
-        <td id="navigation">
-            <?php  include("includes/pages/navigation.php"); ?>
-        </td>
-        <td id="page">
             <h2>Add Subject</h2>
             <?php
             if ($error = array_exists('error', $_GET, null)) {
@@ -22,9 +13,9 @@
                         $subject_count = mysqli_num_rows($subject_set) +1; //adding a row so we need position +1
                         for ($count = 0; $count <= $subject_count; $count++) {
                             if ($count == 0) {
-                                echo "<option value =\"\" disabled selected>Select</option>";
+                                echo "<option value = disabled selected>Select</option>";
                             } else {
-                                echo "<option value =\"{$count}\">{$count}</option>";
+                                echo "<option value ={$count}>{$count}</option>";
                             }
                         }
                         ?>
@@ -39,7 +30,3 @@
             </form>
             <br />
             <a href="content.php">Cancel</a>
-        </td>
-    </tr>
-</table>
-<?php require("includes/pages/footer.php"); ?>

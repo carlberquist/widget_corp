@@ -1,5 +1,5 @@
 <?php
-$pageId = 'edit.php'; //basename($_SERVER['PHP_SELF']);
+$pageId = basename($_SERVER['PHP_SELF']); //basename($_SERVER['PHP_SELF']);
 $sel_subj = array_exists('subject', $_GET, "");
 $sel_page = array_exists('page', $_GET, "");
 
@@ -21,7 +21,7 @@ $selected_subject = (array_key_exists('addSubject', $_GET)) ? "class = \"selecte
 $selected_page = (array_key_exists('addPage', $_GET)) ? "class = \"selected\"" : "";
 $output .= "<br />";
 $output .= "<ul class=\"subjects\">";
-$output .= "<li {$selected_subject}><a href=\"" .add_or_update_params('new_subject.php', 'addSubject', 0) ."\">+ New subject</a></li>";
-$output .= "<li {$selected_page}><a {$selected_page} href=\"" .add_or_update_params('new_page.php', 'addPage', 0) ."\">+ New page</a></li>";
+$output .= "<li {$selected_subject}><a href=\"" .add_or_update_params(basename($_SERVER['PHP_SELF']), 'addSubject', 0) ."\">+ New subject</a></li>";
+$output .= "<li {$selected_page}><a {$selected_page} href=\"" .add_or_update_params(basename($_SERVER['PHP_SELF']), 'addPage', 0) ."\">+ New page</a></li>";
 $output .= "</ul>";
 echo $output;

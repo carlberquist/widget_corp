@@ -1,5 +1,5 @@
 <?php
-$pageId = 'edit_subject.php'; //basename($_SERVER['PHP_SELF']);
+$pageId = 'edit.php'; //basename($_SERVER['PHP_SELF']);
 $sel_subj = array_exists($_GET, 'subject', "");
 $sel_page = array_exists($_GET, 'page', "");
 

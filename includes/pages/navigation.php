@@ -25,3 +25,4 @@ $output .= "<li {$selected_subject}><a href=\"" .add_or_update_params(basename($
 $output .= "<li {$selected_page}><a {$selected_page} href=\"" .add_or_update_params(basename($_SERVER['PHP_SELF']), 'addPage', 0) ."\">+ New page</a></li>";
 $output .= "</ul>";
 echo $output;
+?>

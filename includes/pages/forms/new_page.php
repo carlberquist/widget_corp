@@ -8,7 +8,7 @@
                         $subject_count = mysqli_num_rows($subject_set) +1; //adding a row so we need position +1
                         for ($count = 0; $count <= $subject_count; $count++) {
                             if ($count == 0) {
-                                echo "<option value = disabled selected>Select</option>";
+                                echo "<option value = \"\" disabled selected>Select</option>";
                             } else {
                                 echo "<option value ={$count}>{$count}</option>";
                             }

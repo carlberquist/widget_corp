@@ -1,4 +1,4 @@
-<h2>Add Subject </h2>
+<h2>Add Page</h2>
 <form action="new_page.php" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="" /></p>
                 <p>Position:

@@ -1,7 +1,7 @@
 <?php
 $pageId = basename($_SERVER['PHP_SELF']); //basename($_SERVER['PHP_SELF']);
-$sel_subj = array_exists('subject', $_GET, "");
-$sel_page = array_exists('page', $_GET, "");
+$sel_subj = array_exists('subject', $_GET);
+$sel_page = array_exists('page', $_GET);
 
 $output = '<ul class="subjects">';
 $subject_set = get_all_subjects();

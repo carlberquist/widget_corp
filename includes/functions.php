@@ -18,9 +18,12 @@ function get_all_subjects()
 }
 function get_all_pages_for_subjects($subject_id)
 {
+    if (!empty($subject_id)){
     $query = "SELECT id, menu_name FROM pages WHERE subject_id = {$subject_id} ORDER BY position ASC";
     $result = do_query($query);
     return($result);
+    }
+    return false;
 }
 function get_subject_by_id()
 {
@@ -34,6 +37,7 @@ function get_subject_by_id()
             return "No subject found";
         }
     }
+    return false;
 }
 function get_page_by_id()
 {
@@ -47,8 +51,9 @@ function get_page_by_id()
             return "No page found";
         }
     }
+    return false;
 }
-function array_exists($key, $array = null, $defaultValue = null)
+function array_exists($key, $array = null, $defaultValue = "")
 {
     if (is_array($array) && array_key_exists($key, $array)) {
         $value = $array[$key];
@@ -67,7 +72,7 @@ function check_required_fields($required_fields)
 {
     $fields = "";
     foreach ($required_fields as $key => $value) {
-        if (array_exists($value, $_POST, null) === null || empty($_POST[$value])) {
+        if (!array_key_exists($value, $_POST) || empty($_POST[$value])) {
             if (empty($fields)) {
                 $fields = $value;
             } else {
@@ -105,7 +110,7 @@ function check_field_length($required_fields, $field_legnth)
 function add_or_update_params($url, $key, $value)
 {
     $a = parse_url($url);
-    $query = array_exists('query', $a, '');
+    $query = array_exists('query', $a);
     parse_str($query, $params);
     $params[$key] = $value;
     $query = http_build_query($params);

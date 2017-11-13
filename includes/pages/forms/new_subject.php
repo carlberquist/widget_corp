@@ -1,6 +1,6 @@
             <h2>Add Subject</h2>
             <?php
-            if ($error = array_exists('error', $_GET, null)) {
+            if ($error = array_key_exists('error', $_GET)) {
                 echo "<div class=\"error\">Please fill in field " . $error . "</div>";
             }
             ?>

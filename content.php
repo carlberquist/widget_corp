@@ -1,7 +1,6 @@
 <?php require_once("includes/connection.php"); ?>
 <?php require_once("includes/functions.php"); ?>
-<?php include("includes/pages/header.php");
-?>
+<?php include("includes/pages/header.php"); ?>
 <table id="structure">
     <tr>
         <td id="navigation">

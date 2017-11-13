@@ -1,5 +1,5 @@
 <h2>Add Page</h2>
-<form action="new_page.php" method="post">
+<form action="<?php echo add_or_update_params('process_form.php', 'new_page');?>" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="" /></p>
                 <p>Position:
                     <select name="position">

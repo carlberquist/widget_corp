@@ -18,10 +18,10 @@ function get_all_subjects()
 }
 function get_all_pages_for_subjects($subject_id)
 {
-    if (!empty($subject_id)){
-    $query = "SELECT id, menu_name FROM pages WHERE subject_id = {$subject_id} ORDER BY position ASC";
-    $result = do_query($query);
-    return($result);
+    if (!empty($subject_id)) {
+        $query = "SELECT id, menu_name FROM pages WHERE subject_id = {$subject_id} ORDER BY position ASC";
+        $result = do_query($query);
+        return($result);
     }
     return false;
 }
@@ -34,7 +34,8 @@ function get_subject_by_id()
         if ($subject = mysqli_fetch_array($result_set)) {
             return $subject;
         } else {
-            return "No subject found";
+            echo "No subject found";
+            exit;
         }
     }
     return false;
@@ -52,6 +53,62 @@ function get_page_by_id()
         }
     }
     return false;
+}
+function insert_subject()
+{
+    if (!array_key_exists($_POST, 'menu_name')) {
+        return false;
+    }
+    $menu_name = $_POST['menu_name'];
+    $position = $_POST['position'];
+    $visible = $_POST['visible'];
+    $query = "INSERT IGNORE INTO pages VALUES menu_name, position, visible VALUES '$menu_name', $position, $visible";
+    if (do_query($query)){
+        redirect_to('content.php');
+    }
+}
+function insert_page()
+{
+    if (!array_key_exists($_POST, 'menu_name')) {
+        return false;
+    }
+    $menu_name = $_POST['menu_name'];
+    $content = $_POST['menu_content'];
+    $position = $_POST['position'];
+    $visible = $_POST['visible'];
+    $query = "INSERT IGNORE INTO pages VALUES menu_name, content, position, visible VALUES '$menu_name', '$content', $position, $visible";
+    if (do_query($query)){
+        redirect_to('content.php');
+    }
+}
+function update_subject($page_id = null)
+{
+    $page_id = ($page_id) ? $_GET['subject'] : $page_id;
+    if (!array_key_exists('menu_name', $_POST)) {
+        return false;
+    }
+    $menu_name = $_POST['menu_name'];
+    $position = $_POST['position'];
+    $visible = $_POST['visible'];
+    $query = "UPDATE pages SET menu_name = '$menu_name', position = $position, visible = $visible WHERE id = $page_id";
+    if (do_query($query)){
+        redirect_to('content.php');
+    }
+}
+function update_page($page_id = null)
+{
+    $page_id = ($page_id) ? $_GET['page'] : $page_id;
+    if (!array_key_exists('menu_name' ,$_POST)) {
+        return false;
+    }
+    $menu_name = $_POST['menu_name'];
+    $content = $_POST['menu_content'];
+    $position = $_POST['position'];
+    $visible = $_POST['visible'];
+    $query = "UPDATE pages SET menu_name = '$menu_name', content = '$content', position = $position, visible = $visible WHERE id = $page_id";
+    if (do_query($query)){
+        redirect_to('content.php');
+    }
 }
 function array_exists($key, $array = null, $defaultValue = "")
 {
@@ -107,7 +164,7 @@ function check_field_length($required_fields, $field_legnth)
         return false;
     }
 }
-function add_or_update_params($url, $key, $value)
+function add_or_update_params($url, $key, $value = "")
 {
     $a = parse_url($url);
     $query = array_exists('query', $a);

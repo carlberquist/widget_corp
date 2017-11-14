@@ -16,6 +16,12 @@ function get_all_subjects()
     $result = do_query($query);
     return $result;
 }
+function get_all_pages()
+{
+    $query = "SELECT id, subject_id, menu_name FROM pages ORDER BY id ASC";
+    $result = do_query($query);
+    return $result;
+}
 function get_all_pages_for_subjects($subject_id)
 {
     if (!empty($subject_id)) {
@@ -44,7 +50,7 @@ function get_page_by_id()
 {
     if (array_key_exists('page', $_GET)) {
         $page_id = $_GET['page'];
-        $query = "SELECT menu_name, content, position, visible FROM pages WHERE id = {$page_id} LIMIT 1";
+        $query = "SELECT menu_name, subject_id, content, position, visible FROM pages WHERE id = {$page_id} LIMIT 1";
         $result_set = do_query($query);
         if ($subject = mysqli_fetch_array($result_set)) {
             return $subject;
@@ -62,7 +68,7 @@ function insert_subject()
     $menu_name = $_POST['menu_name'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "INSERT IGNORE INTO pages(menu_name, position, visible) VALUES ({'$menu_name'}, $position, $visible)";
+    $query = "INSERT INTO pages(menu_name, position, visible,) VALUES ({'$menu_name'}, $position, $visible)";
     if (do_query($query)){
         redirect_to('content.php');
     }
@@ -77,7 +83,7 @@ function insert_page()
     $content = $_POST['menu_content'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "INSERT IGNORE INTO pages (menu_name, subject_id, content, position, visible) VALUES ({'$menu_name'}, {'$subject_id'},{'$content'}, {$position}, {$visible})";
+    $query = "INSERT INTO pages (menu_name, subject_id, content, position, visible) VALUES ({'$menu_name'}, {'$subject_id'},{'$content'}, {$position}, {$visible})";
     if (do_query($query)){
         redirect_to('content.php');
     }

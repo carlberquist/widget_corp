@@ -62,7 +62,7 @@ function insert_subject()
     $menu_name = $_POST['menu_name'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "INSERT IGNORE INTO pages VALUES menu_name, position, visible VALUES '$menu_name', $position, $visible";
+    $query = "INSERT IGNORE INTO pages(menu_name, position, visible) VALUES ({'$menu_name'}, $position, $visible)";
     if (do_query($query)){
         redirect_to('content.php');
     }
@@ -91,7 +91,7 @@ function update_subject($page_id = null)
     $menu_name = $_POST['menu_name'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "UPDATE pages SET menu_name = '$menu_name', position = $position, visible = $visible WHERE id = $page_id";
+    $query = "UPDATE pages SET menu_name = {'$menu_name'}, position = {$position}, visible = {$visible} WHERE id = $page_id";
     if (do_query($query)){
         redirect_to('content.php');
     }
@@ -104,9 +104,10 @@ function update_page($page_id = null)
     }
     $menu_name = $_POST['menu_name'];
     $content = $_POST['menu_content'];
+    $subject_id = $_POST['$subject_id'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "UPDATE pages SET menu_name = '$menu_name', content = '$content', position = $position, visible = $visible WHERE id = $page_id";
+    $query = "UPDATE pages SET menu_name = {'$menu_name'}, content = {'$content'}, position = {$position}, visible = {$visible}, subject_id = {$subject_id} WHERE id = $page_id";
     if (do_query($query)){
         redirect_to('content.php');
     }

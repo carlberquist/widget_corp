@@ -69,14 +69,15 @@ function insert_subject()
 }
 function insert_page()
 {
-    if (!array_key_exists($_POST, 'menu_name')) {
+    if (!array_key_exists('menu_name', $_POST)) {
         return false;
     }
     $menu_name = $_POST['menu_name'];
+    $subject_id = $_POST['subject_id'];
     $content = $_POST['menu_content'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "INSERT IGNORE INTO pages VALUES menu_name, content, position, visible VALUES '$menu_name', '$content', $position, $visible";
+    $query = "INSERT IGNORE INTO pages (menu_name, subject_id, content, position, visible) VALUES ({'$menu_name'}, {'$subject_id'},{'$content'}, {$position}, {$visible})";
     if (do_query($query)){
         redirect_to('content.php');
     }

@@ -7,7 +7,7 @@ if ($selected_subject = get_subject_by_id()){
 ?>
 
 <h2>Edit Subject <?php echo "{$selected_subject_menu_name}"; ?></h2>
-<form action="<?php echo add_or_update_params('process_form.php', 'edit_subject', array_exists('page', $_GET));?>" method="post">
+<form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'edit_subject', array_exists('page', $_GET));?>" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="<?php echo "{$selected_subject_menu_name}"; ?>" /></p>
                 <p>Position:
                     <select name="position">

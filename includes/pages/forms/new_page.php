@@ -1,6 +1,7 @@
 <h2>Add Page</h2>
-<form action="<?php echo add_or_update_params('process_form.php', 'new_page');?>" method="post">
+<form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'new_page');?>" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="" /></p>
+                <p>Content: <textarea id="menu_content" rows="4" cols="50" name="menu_content" value=""></textarea></p>
                 <p>Position:
                     <select name="position">
                         <?php

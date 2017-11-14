@@ -1,6 +1,5 @@
 <?php require_once("../../connection.php"); ?>
 <?php require_once("../../functions.php"); ?>
-<?php include("../header.php"); ?>
 <?php
 if (array_key_exists('edit_page', $_GET)) {
     update_page();
@@ -12,4 +11,3 @@ if (array_key_exists('edit_page', $_GET)) {
     insert_subject();
 }
 ?>
-<?php require("includes/pages/footer.php");

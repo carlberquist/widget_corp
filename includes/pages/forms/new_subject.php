@@ -4,7 +4,7 @@
                 echo "<div class=\"error\">Please fill in field " . $error . "</div>";
             }
             ?>
-            <form action="<?php echo add_or_update_params('process_form.php', 'new_subject');?>" method="post">
+            <form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'new_subject');?>" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="" /></p>
                 <p>Position:
                     <select name="position">

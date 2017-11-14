@@ -9,7 +9,7 @@ $selected_page_visible = $selected_page['visible'];
 <h2>Edit Page <?php echo "{$selected_page_menu_name}"; ?></h2>
 <form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'edit_page', array_exists('page', $_GET));?>" method="post">
                 <p>Page name: <input id="menu_name" type="text" name="menu_name" value="<?php echo "{$selected_page_menu_name}"; ?>" /></p>
-                <p>Content: <textarea id="menu_content" rows="4" cols="50" name="menu_content"><?php echo "{$selected_page_content}";?></textarea></p>
+                <p>Content: <textarea id="menu_content" rows="4" cols="50" name="menu_content" value="<?php echo "{$selected_page_content}";?>"><?php echo "{$selected_page_content}";?></textarea></p>
                 <p>Position:
                     <select name="position">
                         <?php

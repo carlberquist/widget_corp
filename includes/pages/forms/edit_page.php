@@ -1,10 +1,10 @@
 <?php
 if ($selected_page = get_page_by_id()) {
-    $subject_id = array_exists($selected_page['subject_id']);
-    $selected_page_menu_name = array_exists($selected_page['menu_name']);
-    $selected_page_content = array_exists($selected_page['content']);
-    $selected_page_position = array_exists($selected_page['position']);
-    $selected_page_visible = array_exists($selected_page['visible']);
+    $subject_id = $selected_page['subject_id'];
+    $selected_page_menu_name = $selected_page['menu_name'];
+    $selected_page_content = $selected_page['content'];
+    $selected_page_position = $selected_page['position'];
+    $selected_page_visible = $selected_page['visible'];
 }
 
 ?>
@@ -14,7 +14,7 @@ if ($selected_page = get_page_by_id()) {
     <p>Page name: <input id="menu_name" type="text" name="menu_name"
                          value="<?php echo "{$selected_page_menu_name}"; ?>"/></p>
     <p>Content: <textarea id="menu_content" rows="4" cols="50"
-                          name="menu_content">"><?php echo "{$selected_page_content}"; ?></textarea></p>
+                          name="menu_content"><?php echo "{$selected_page_content}"; ?></textarea></p>
     <p>Subject:
         <select name="submit_id">
             <?php

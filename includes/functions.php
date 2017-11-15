@@ -3,11 +3,16 @@
 function do_query($query)
 {
     global $connection;
-    if ($result = mysqli_query($connection, $query)) {
-        return $result;
-    } else {
-        echo ("Query not complete" . mysqli_error($connection));
-        exit;
+    if (stristr($query, 'SELECT')) {
+        if ($result = mysqli_query($connection, $query)) {
+            return $result;
+        } else {
+            echo("Query not complete " . mysqli_error($connection));
+            exit;
+        }
+    } else if (stristr($query, 'UPDATE') || stristr($query, 'INSERT')) {
+        mysqli_query($connection, $query);
+        return true;
     }
 }
 function get_all_subjects()
@@ -88,19 +93,17 @@ function insert_page()
         redirect_to('content.php');
     }
 }
-function update_subject($page_id = null)
+function update_subject($page_id)
 {
-    $page_id = ($page_id) ? $_GET['subject'] : $page_id;
     if (!array_key_exists('menu_name', $_POST)) {
         return false;
     }
     $menu_name = $_POST['menu_name'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "UPDATE pages SET menu_name = {'$menu_name'}, position = {$position}, visible = {$visible} WHERE id = $page_id";
-    if (do_query($query)){
-        redirect_to('content.php');
-    }
+    $query = "UPDATE subjects SET menu_name = '{$menu_name}', position = {$position}, visible = {$visible} WHERE id = {$page_id}";
+    do_query($query);
+    return true;
 }
 function update_page($page_id = null)
 {
@@ -113,10 +116,11 @@ function update_page($page_id = null)
     $subject_id = $_POST['$subject_id'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "UPDATE pages SET menu_name = {'$menu_name'}, content = {'$content'}, position = {$position}, visible = {$visible}, subject_id = {$subject_id} WHERE id = $page_id";
+    $query = "UPDATE pages SET menu_name = '{$menu_name}', content = '{$content}', position = {$position}, visible = {$visible}, subject_id = {$subject_id} WHERE id = {$page_id}";
     if (do_query($query)){
-        redirect_to('content.php');
+        redirect_to('widget_corp/content.php');
     }
+    return true;
 }
 function array_exists($key, $array = null, $defaultValue = "")
 {

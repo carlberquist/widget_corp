@@ -7,14 +7,14 @@ if ($selected_subject = get_subject_by_id()){
 ?>
 
 <h2>Edit Subject <?php echo "{$selected_subject_menu_name}"; ?></h2>
-<form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'edit_subject', array_exists('page', $_GET));?>" method="post">
+<form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'edit_subject', array_exists('subject', $_GET));?>" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="<?php echo "{$selected_subject_menu_name}"; ?>" /></p>
                 <p>Position:
                     <select name="position">
                         <?php
                         $subject_set = get_all_subjects();
-                        $subject_count = mysqli_num_rows($subject_set) +1; //adding a row so we need position +1
-                        for ($count = 0; $count <= $subject_count; $count++) {
+                        $subject_count = mysqli_num_rows($subject_set); //adding a row so we need position +1
+                        for ($count = 1; $count <= $subject_count; $count++) {
                             if ($count == $selected_subject_position) {
                                 echo "<option value =\"{$count}\" selected>{$count}</option>";
                             } else {

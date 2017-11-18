@@ -111,9 +111,10 @@ function update_page($page_id = null)
     if (!array_key_exists('menu_name' ,$_POST)) {
         return false;
     }
+    var_dump($_POST);
     $menu_name = $_POST['menu_name'];
     $content = $_POST['menu_content'];
-    $subject_id = $_POST['$subject_id'];
+    $subject_id = $_POST['submit_id'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
     $query = "UPDATE pages SET menu_name = '{$menu_name}', content = '{$content}', position = {$position}, visible = {$visible}, subject_id = {$subject_id} WHERE id = {$page_id}";

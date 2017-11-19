@@ -30,9 +30,13 @@ function get_all_pages()
 function get_all_pages_for_subjects($subject_id)
 {
     if (!empty($subject_id)) {
+        $result_array = array();
         $query = "SELECT id, menu_name FROM pages WHERE subject_id = {$subject_id} ORDER BY position ASC";
         $result = do_query($query);
-        return($result);
+        while ($result_set = mysqli_fetch_array($result)){
+            $result_array[] = $result_set;
+        }
+        return $result_array;
     }
     return false;
 }
@@ -55,13 +59,14 @@ function get_page_by_id()
 {
     if (array_key_exists('page', $_GET)) {
         $page_id = $_GET['page'];
+        $subj_array = array();
         $query = "SELECT menu_name, subject_id, content, position, visible FROM pages WHERE id = {$page_id} LIMIT 1";
         $result_set = do_query($query);
-        if ($subject = mysqli_fetch_array($result_set)) {
-            return $subject;
-        } else {
-            return "No page found";
+        
+        while ($subject = mysqli_fetch_array($result_set)) {
+            $subj_array[] = $subject;
         }
+        return $subj_array;
     }
     return false;
 }
@@ -75,7 +80,7 @@ function insert_subject()
     $visible = $_POST['visible'];
     $query = "INSERT INTO pages(menu_name, position, visible,) VALUES ({'$menu_name'}, $position, $visible)";
     if (do_query($query)){
-        redirect_to('content.php');
+        return true;
     }
 }
 function insert_page()
@@ -90,7 +95,7 @@ function insert_page()
     $visible = $_POST['visible'];
     $query = "INSERT INTO pages (menu_name, subject_id, content, position, visible) VALUES ({'$menu_name'}, {'$subject_id'},{'$content'}, {$position}, {$visible})";
     if (do_query($query)){
-        redirect_to('content.php');
+        return true;
     }
 }
 function update_subject($page_id)
@@ -107,21 +112,35 @@ function update_subject($page_id)
 }
 function update_page($page_id = null)
 {
-    $page_id = ($page_id) ? $_GET['page'] : $page_id;
+    $page_id = ($page_id) ? $page_id : $_GET['page'];
     if (!array_key_exists('menu_name' ,$_POST)) {
         return false;
     }
-    var_dump($_POST);
     $menu_name = $_POST['menu_name'];
     $content = $_POST['menu_content'];
     $subject_id = $_POST['submit_id'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
+    $max_position = "SELECT MAX(position) AS position FROM pages WHERE subject_id = {$subject_id}";
+    $max_position_query = do_query($max_position);
+    $max_position_result = mysqli_fetch_assoc($max_position_query);
+    $max_position_assoc = $max_position_result['position'];
+    $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position} AND id != {$page_id}";
+    $page_position = do_query($page);
+
+    if (mysqli_num_rows($page_position) > 0){
+    $query_update = "UPDATE pages SET position = position +1 WHERE subject_id = {$subject_id} AND position >= {$position} AND id != {$page_id} AND position != {$max_position_assoc}";
+        do_query($query_update);
+    if ($max_position_assoc == $position){
+        $query_update_max = "UPDATE pages SET position = position -1 WHERE subject_id = {$subject_id} AND id != {$page_id} AND position = {$max_position_assoc}";
+        do_query($query_update_max);
+    }
+    }
     $query = "UPDATE pages SET menu_name = '{$menu_name}', content = '{$content}', position = {$position}, visible = {$visible}, subject_id = {$subject_id} WHERE id = {$page_id}";
     if (do_query($query)){
-        redirect_to('widget_corp/content.php');
+        return true;
     }
-    return true;
+    
 }
 function array_exists($key, $array = null, $defaultValue = "")
 {

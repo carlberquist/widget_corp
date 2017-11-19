@@ -1,10 +1,5 @@
             <h2>Add Subject</h2>
-            <?php
-            if ($error = array_key_exists('error', $_GET)) {
-                echo "<div class=\"error\">Please fill in field " . $error . "</div>";
-            }
-            ?>
-            <form action="<?php echo add_or_update_params('includes/pages/forms/process_form.php', 'new_subject');?>" method="post">
+            <form action="<?php echo add_or_update_params($_SERVER['PHP_SELF'], 'addSubject');?>" method="post">
                 <p>Subject name: <input id="menu_name" type="text" name="menu_name" value="" /></p>
                 <p>Position:
                     <select name="position">

@@ -121,10 +121,12 @@ function update_page($page_id = null)
     $subject_id = $_POST['submit_id'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
+
     $max_position = "SELECT MAX(position) AS position FROM pages WHERE subject_id = {$subject_id}";
     $max_position_query = do_query($max_position);
     $max_position_result = mysqli_fetch_assoc($max_position_query);
     $max_position_assoc = $max_position_result['position'];
+    
     $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position} AND id != {$page_id}";
     $page_position = do_query($page);
 

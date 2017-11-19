@@ -15,22 +15,18 @@
                 <p>Position:
                     <select name="position">
                         <?php //Fix page position to change to get new subject positions when subject is changed  
-                        $page_set = get_all_pages();
-                        $page_count = count($page_set) +1; //adding a row so we need position +1
-                        for ($count = 1; $count <= $page_count; $count++) {
-                                echo "<option value =\"{$count}\" selected>{$count}</option>";
-                        }
+                                echo "<option value =1>1</option>";
                         ?>
                     </select>
                 </p>
                 <p>Visible:
                 <?php
-                    echo "<input type=\"radio\" name=\"visible\" value=\"0\" checked/>No
+                    echo "<input type=\"radio\" name=\"visible\" value=\"0\" />No
 							&nbsp;
 							<input type=\"radio\" name=\"visible\" value=\"1\" />Yes";
                         ?>
                 </p>
-                <input type="submit" value="Edit page" />
+                <input type="submit" value="Add page" />
             </form>
             <br />
             <a href="content.php">Cancel</a>

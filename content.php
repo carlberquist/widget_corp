@@ -2,14 +2,20 @@
 <?php require_once("includes/functions.php"); ?>
 <?php include("includes/pages/header.php");
 if (!empty($_POST["menu_name"])) {
-    if (array_key_exists('page', $_GET)) {
-        update_page($_GET['page']);
-    } elseif (array_key_exists('subject', $_GET)) {
-        update_subject($_GET['subject']);
-    } elseif (array_key_exists('addPage', $_GET)) {
-        insert_page();
-    } elseif (array_key_exists('addSubject', $_GET)) {
-        insert_subject();
+    $menu_name = $_POST['menu_name'] ?? "";
+    $menu_content = $_POST['menu_content'] ?? "";
+    $submit_id = $_POST['submit_id'] ?? "";
+    $position = $_POST['position'] ?? "";
+    $visible = $_POST['visible'] ?? "";
+    if (isset($_GET['page'])) {
+        var_dump($_POST);
+        update_page($menu_name, $menu_content, $submit_id, $position, $visible, $_GET['page']);
+    } elseif (isset($_GET['subject'])) {
+        update_subject($menu_name, $position, $visible, $_GET['subject']);
+    } elseif (isset($_GET['addPage'])) {
+        insert_page($menu_name, $menu_content, $submit_id, $position, $visible);
+    } elseif (isset($_GET['addSubject'])) {
+        insert_subject($menu_name, $position, $visible);
     }
 }
 
@@ -22,13 +28,13 @@ if (!empty($_POST["menu_name"])) {
         <td id="page">
         <h2>Content Area</h2>
             <?php
-            if (array_key_exists('subject', $_GET)) {
+            if (isset($_GET['subject'])) {
                 include("includes/pages/forms/edit_subject.php");
-            } elseif (array_key_exists('page', $_GET)) {
+            } elseif (isset($_GET['page'])) {
                 include("includes/pages/forms/edit_page.php");
-            } elseif (array_key_exists('addPage', $_GET)) {
+            } elseif (isset($_GET['addPage'])) {
                 include("includes/pages/forms/new_page.php");
-            } elseif (array_key_exists('addSubject', $_GET)) {
+            } elseif (isset($_GET['addSubject'])) {
                 include("includes/pages/forms/new_subject.php");
             }
             ?>

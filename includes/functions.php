@@ -22,7 +22,7 @@ function do_query($query)
 function get_all_subjects()
 {
     $result_arr = array();
-    $query = "SELECT id, menu_name FROM subjects ORDER BY position ASC";
+    $query = "SELECT id, menu_name, position FROM subjects ORDER BY position ASC";
     $result = do_query($query);
     while ($result_set = mysqli_fetch_assoc($result)) {
         $result_arr[] = $result_set;
@@ -32,7 +32,7 @@ function get_all_subjects()
 function get_all_pages()
 {
     $result_arr = array();
-    $query = "SELECT id, subject_id, menu_name FROM pages ORDER BY id ASC";
+    $query = "SELECT id, subject_id, menu_name, position FROM pages ORDER BY id ASC";
     $result = do_query($query);
     while ($result_set = mysqli_fetch_assoc($result)) {
         $result_arr[] = $result_set;
@@ -84,6 +84,7 @@ function get_page_by_id()
 }
 function insert_subject($menu_name, $position, $visible)
 {
+    update_max_subject_position($menu_name, $position, $page_id, TRUE);
     $query = "INSERT INTO pages(menu_name, position, visible,) VALUES ('{$menu_name}', $position, $visible)";
     if (do_query($query)) {
         return true;
@@ -91,7 +92,7 @@ function insert_subject($menu_name, $position, $visible)
 }
 function insert_page($menu_name, $subject_id, $content, $position, $visible)
 {
-    update_max_page_position();
+    update_max_page_position($subject_id, $position, $page_id, TRUE);
     $query = "INSERT INTO pages (menu_name, subject_id, content, position, visible) VALUES ('{$menu_name}', '{$subject_id}','{$content}', {$position}, {$visible})";
     if (do_query($query)) {
         return true;
@@ -99,6 +100,7 @@ function insert_page($menu_name, $subject_id, $content, $position, $visible)
 }
 function update_subject($menu_name, $position, $visible, $page_id)
 {
+    update_max_subject_position($menu_name, $position, $page_id, FALSE);
     $query = "UPDATE subjects SET menu_name = '{$menu_name}', position = {$position}, visible = {$visible} WHERE id = {$page_id}";
     do_query($query);
     return true;
@@ -135,27 +137,29 @@ function update_max_page_position($subject_id, $position, $page_id, $insert = tr
         }
     }
 }
-//add +1 to position on NEW subjects when position != MAX
-//add +1 to position on NEW pages when position != MAX
-//if position is not MAX
+function update_max_subject_position($subject_id, $position, $page_id, $insert = true)
+{
+    $max_position = "SELECT MAX(position) AS position FROM subjects";
+    $max_position_query = do_query($max_position);
+    $max_position_result = mysqli_fetch_assoc($max_position_query);
+    $max_position_result = $max_position_result['position'];
 
-/*
-function array_exists($key, $array = null, $defaultValue = "")
-{
-    if (is_array($array) && array_key_exists($key, $array)) {
-        $value = $array[$key];
-        return isset($value) ? $value : $defaultValue;
+    $page = "SELECT position FROM subjects WHERE position = {$position} AND id != {$page_id}";
+    $page_position = do_query($page);
+
+    if (mysqli_num_rows($page_position) > 0) {
+        if ($insert === false) {
+            $query_update = "UPDATE subjects SET position = position +1 WHERE position >= {$position} AND id != {$page_id} AND position != {$max_position_result}";
+        } else {
+            $query_update = "UPDATE subjects SET position = position +1 WHERE position >= {$position} AND id != {$page_id}";
+        }
+        do_query($query_update);
+        if ($max_position_result == $position) {
+            $query_update_max = "UPDATE subjects SET position = position -1 WHERE subject_id = {$subject_id} AND id != {$page_id} AND position = {$max_position_result}";
+            do_query($query_update_max);
+        }
     }
-    return $defaultValue;
 }
-function redirect_to($location = null)
-{
-    if ($location !== null) {
-        header($location);
-        exit;
-    }
-}
- */
 function check_required_fields($required_fields)
 {
     $fields = "";

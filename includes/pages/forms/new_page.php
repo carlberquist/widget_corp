@@ -7,15 +7,25 @@
                         <?php
                         $subject_set = get_all_subjects();   
                         foreach ($subject_set as $subject) {
-                                echo "<option value =\"" . $subject['id'] . "\" selected>" . $subject['menu_name'] . "</option>";
+                            $position = $subject['position'];
+                            $menu_name = $subject['menu_name'];
+                            $id = $subject['id'];
+                                echo "<option value ={$position} data-subject={$id}>{$menu_name}</option>";
                         }
                         ?>
                     </select>
                 </p>
                 <p>Position:
                     <select name="position">
-                        <?php //Fix page position to change to get new subject positions when subject is changed  
-                                echo "<option value =1>1</option>";
+                        <?php 
+                        //get count all subjects, with subject_id as attribute
+                        //Javascript on change submit_id, hide positions where subject_id value != subject_id attribute
+                        $page_set = get_all_pages();
+                        foreach ($page_set as $pages){
+                            $subject_id = $pages['subject_id'];
+                            $position = $pages['position'];
+                                echo "<option value={$position} data-subject={$subject_id}>{$position}</option>";
+                        }
                         ?>
                     </select>
                 </p>

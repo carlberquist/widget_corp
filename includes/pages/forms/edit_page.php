@@ -32,7 +32,7 @@ if ($selected = get_page_by_id()) {
     </p>
     <p>Position:
         <select name="position">
-            <?php //Fix page position to change to get new subject positions when subject is changed
+            <?php
             $page_set = get_all_pages_for_subjects($subject_id);
             $page_count = count($page_set);
             for ($count = 1; $count <= $page_count; $count++) {

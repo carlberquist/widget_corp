@@ -5,13 +5,11 @@
                     <select name="position">
                         <?php
                         $subject_set = get_all_subjects();
-                        $subject_count = count($subject_set) +1; //adding a row so we need position +1
-                        for ($count = 0; $count <= $subject_count; $count++) {
-                            if ($count == 0) {
-                                echo "<option value = \"\" disabled selected>Select</option>";
-                            } else {
-                                echo "<option value ={$count}>{$count}</option>";
-                            }
+                        //$subject_count = count($subject_set) +1; //adding a row so we need position +1
+                        foreach ($subject_set as $subject) {
+                           $position = $subject['position'];
+                            $id = $subject['id'];
+                                echo "<option value ={$position} data-subject={$id}>{$position}</option>";
                         }
                         ?>
                     </select>

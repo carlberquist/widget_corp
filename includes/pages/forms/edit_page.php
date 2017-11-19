@@ -20,7 +20,7 @@ if ($selected = get_page_by_id()) {
         <select name="submit_id">
             <?php
             $subject_set = get_all_subjects();
-            while ($subject = mysqli_fetch_array($subject_set)) {
+            foreach ($subject_set as $subject) {
                 if ($subject['id'] == $subject_id) {
                     echo "<option value =" . $subject['id'] . " selected>" . $subject['menu_name'] . "</option>";
                 } else {

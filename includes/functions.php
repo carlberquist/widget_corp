@@ -7,25 +7,37 @@ function do_query($query)
         if ($result = mysqli_query($connection, $query)) {
             return $result;
         } else {
-            echo("Query not complete " . mysqli_error($connection));
+            echo ("Query not complete " . mysqli_error($connection));
             exit;
         }
     } else if (stristr($query, 'UPDATE') || stristr($query, 'INSERT')) {
-        mysqli_query($connection, $query);
-        return true;
+        if (mysqli_query($connection, $query)) {
+            return true;
+        } else {
+            echo ("Query not complete " . mysqli_error($connection));
+            exit;
+        }
     }
 }
 function get_all_subjects()
 {
+    $result_arr = array();
     $query = "SELECT id, menu_name FROM subjects ORDER BY position ASC";
     $result = do_query($query);
-    return $result;
+    while ($result_set = mysqli_fetch_assoc($result)){
+        $result_arr[] = $result_set;
+    }
+    return $result_arr;
 }
 function get_all_pages()
 {
+    $result_arr = array();
     $query = "SELECT id, subject_id, menu_name FROM pages ORDER BY id ASC";
     $result = do_query($query);
-    return $result;
+    while ($result_set = mysqli_fetch_assoc($result)){
+        $result_arr[] = $result_set;
+    }
+    return $result_arr;
 }
 function get_all_pages_for_subjects($subject_id)
 {
@@ -33,7 +45,7 @@ function get_all_pages_for_subjects($subject_id)
         $result_array = array();
         $query = "SELECT id, menu_name FROM pages WHERE subject_id = {$subject_id} ORDER BY position ASC";
         $result = do_query($query);
-        while ($result_set = mysqli_fetch_array($result)){
+        while ($result_set = mysqli_fetch_array($result)) {
             $result_array[] = $result_set;
         }
         return $result_array;
@@ -62,7 +74,7 @@ function get_page_by_id()
         $subj_array = array();
         $query = "SELECT menu_name, subject_id, content, position, visible FROM pages WHERE id = {$page_id} LIMIT 1";
         $result_set = do_query($query);
-        
+
         while ($subject = mysqli_fetch_array($result_set)) {
             $subj_array[] = $subject;
         }
@@ -79,7 +91,7 @@ function insert_subject()
     $position = $_POST['position'];
     $visible = $_POST['visible'];
     $query = "INSERT INTO pages(menu_name, position, visible,) VALUES ({'$menu_name'}, $position, $visible)";
-    if (do_query($query)){
+    if (do_query($query)) {
         return true;
     }
 }
@@ -94,7 +106,7 @@ function insert_page()
     $position = $_POST['position'];
     $visible = $_POST['visible'];
     $query = "INSERT INTO pages (menu_name, subject_id, content, position, visible) VALUES ({'$menu_name'}, {'$subject_id'},{'$content'}, {$position}, {$visible})";
-    if (do_query($query)){
+    if (do_query($query)) {
         return true;
     }
 }
@@ -113,7 +125,7 @@ function update_subject($page_id)
 function update_page($page_id = null)
 {
     $page_id = ($page_id) ? $page_id : $_GET['page'];
-    if (!array_key_exists('menu_name' ,$_POST)) {
+    if (!array_key_exists('menu_name', $_POST)) {
         return false;
     }
     $menu_name = $_POST['menu_name'];
@@ -130,19 +142,19 @@ function update_page($page_id = null)
     $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position} AND id != {$page_id}";
     $page_position = do_query($page);
 
-    if (mysqli_num_rows($page_position) > 0){
-    $query_update = "UPDATE pages SET position = position +1 WHERE subject_id = {$subject_id} AND position >= {$position} AND id != {$page_id} AND position != {$max_position_result}";
+    if (mysqli_num_rows($page_position) > 0) {
+        $query_update = "UPDATE pages SET position = position +1 WHERE subject_id = {$subject_id} AND position >= {$position} AND id != {$page_id} AND position != {$max_position_result}";
         do_query($query_update);
-    if ($max_position_result == $position){
-        $query_update_max = "UPDATE pages SET position = position -1 WHERE subject_id = {$subject_id} AND id != {$page_id} AND position = {$max_position_result}";
-        do_query($query_update_max);
-    }
+        if ($max_position_result == $position) {
+            $query_update_max = "UPDATE pages SET position = position -1 WHERE subject_id = {$subject_id} AND id != {$page_id} AND position = {$max_position_result}";
+            do_query($query_update_max);
+        }
     }
     $query = "UPDATE pages SET menu_name = '{$menu_name}', content = '{$content}', position = {$position}, visible = {$visible}, subject_id = {$subject_id} WHERE id = {$page_id}";
-    if (do_query($query)){
+    if (do_query($query)) {
         return true;
     }
-    
+
 }
 function array_exists($key, $array = null, $defaultValue = "")
 {
@@ -213,10 +225,10 @@ function add_or_update_params($url, $key, $value = "")
         $result .= '//' . $a['host'];
     }
     if (array_key_exists('path', $a)) {
-        $result .=  $a['path'];
+        $result .= $a['path'];
     }
     if ($query) {
-        $result .=  '?' . $query;
+        $result .= '?' . $query;
     }
     return $result;
 }

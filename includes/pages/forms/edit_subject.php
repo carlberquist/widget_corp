@@ -13,7 +13,7 @@ if ($selected_subject = get_subject_by_id()){
                     <select name="position">
                         <?php
                         $subject_set = get_all_subjects();
-                        $subject_count = mysqli_num_rows($subject_set); //adding a row so we need position +1
+                        $subject_count = count($subject_set); //adding a row so we need position +1
                         for ($count = 1; $count <= $subject_count; $count++) {
                             if ($count == $selected_subject_position) {
                                 echo "<option value =\"{$count}\" selected>{$count}</option>";

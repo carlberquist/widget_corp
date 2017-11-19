@@ -5,7 +5,7 @@
                     <select name="position">
                         <?php
                         $subject_set = get_all_subjects();
-                        $subject_count = mysqli_num_rows($subject_set) +1; //adding a row so we need position +1
+                        $subject_count = count($subject_set) +1; //adding a row so we need position +1
                         for ($count = 0; $count <= $subject_count; $count++) {
                             if ($count == 0) {
                                 echo "<option value = \"\" disabled selected>Select</option>";

@@ -4,7 +4,7 @@ $sel_subj = array_exists('subject', $_GET);
 $sel_page = array_exists('page', $_GET);
 $output = '<ul class="subjects">';
 $subject_set = get_all_subjects();
-while ($subject = mysqli_fetch_array($subject_set)) {
+foreach ($subject_set as $subject) {
     $sel_subj_menu_name = ($subject["id"] == $sel_subj) ? $subject["menu_name"] : "";
     $selected_subject = ($subject["id"] == $sel_subj) ? "class = \"selected\"" : "";
     $output .= "<li {$selected_subject}><a href=\"" . add_or_update_params($self, 'subject', $subject["id"]) . "\">{$subject["menu_name"]}</a></li>";

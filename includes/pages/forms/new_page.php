@@ -6,7 +6,7 @@
                     <select name="submit_id">
                         <?php
                         $subject_set = get_all_subjects();   
-                        while ($subject = mysqli_fetch_array($subject_set)){
+                        foreach ($subject_set as $subject) {
                                 echo "<option value =\"" . $subject['id'] . "\" selected>" . $subject['menu_name'] . "</option>";
                         }
                         ?>
@@ -16,7 +16,7 @@
                     <select name="position">
                         <?php //Fix page position to change to get new subject positions when subject is changed  
                         $page_set = get_all_pages();
-                        $page_count = mysqli_num_rows($page_set) +1; //adding a row so we need position +1
+                        $page_count = count($page_set) +1; //adding a row so we need position +1
                         for ($count = 1; $count <= $page_count; $count++) {
                                 echo "<option value =\"{$count}\" selected>{$count}</option>";
                         }

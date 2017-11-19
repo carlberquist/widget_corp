@@ -125,16 +125,16 @@ function update_page($page_id = null)
     $max_position = "SELECT MAX(position) AS position FROM pages WHERE subject_id = {$subject_id}";
     $max_position_query = do_query($max_position);
     $max_position_result = mysqli_fetch_assoc($max_position_query);
-    $max_position_assoc = $max_position_result['position'];
-    
+    $max_position_result = $max_position_result['position'];
+
     $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position} AND id != {$page_id}";
     $page_position = do_query($page);
 
     if (mysqli_num_rows($page_position) > 0){
-    $query_update = "UPDATE pages SET position = position +1 WHERE subject_id = {$subject_id} AND position >= {$position} AND id != {$page_id} AND position != {$max_position_assoc}";
+    $query_update = "UPDATE pages SET position = position +1 WHERE subject_id = {$subject_id} AND position >= {$position} AND id != {$page_id} AND position != {$max_position_result}";
         do_query($query_update);
-    if ($max_position_assoc == $position){
-        $query_update_max = "UPDATE pages SET position = position -1 WHERE subject_id = {$subject_id} AND id != {$page_id} AND position = {$max_position_assoc}";
+    if ($max_position_result == $position){
+        $query_update_max = "UPDATE pages SET position = position -1 WHERE subject_id = {$subject_id} AND id != {$page_id} AND position = {$max_position_result}";
         do_query($query_update_max);
     }
     }

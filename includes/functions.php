@@ -145,9 +145,9 @@ function update_max_subject_position($subject_id, $position, $page_id, $insert =
     $max_position_result = $max_position_result['position'];
 
     $page = "SELECT position FROM subjects WHERE position = {$position} AND id != {$page_id}";
-    $page_position = do_query($page);
+    $subject_position = do_query($page);
 
-    if (mysqli_num_rows($page_position) > 0) {
+    if (mysqli_num_rows($subject_position) > 0) {
         if ($insert === false) {
             $query_update = "UPDATE subjects SET position = position +1 WHERE position >= {$position} AND id != {$page_id} AND position != {$max_position_result}";
         } else {
@@ -164,7 +164,7 @@ function check_required_fields($required_fields)
 {
     $fields = "";
     foreach ($required_fields as $key => $value) {
-        if (!array_key_exists($value, $_POST) || empty($_POST[$value])) {
+        if (!isset($_POST[$value]) || empty($_POST[$value])) {
             if (empty($fields)) {
                 $fields = $value;
             } else {
@@ -207,13 +207,13 @@ function add_or_update_params($url, $key, $value = "")
     $params[$key] = $value;
     $query = http_build_query($params);
     $result = '';
-    if (array_key_exists('scheme', $a)) {
+    if (isset($a['scheme'])) {
         $result .= $a['scheme'] . ':';
     }
-    if (array_key_exists('host', $a)) {
+    if (isset($a['host'])) {
         $result .= '//' . $a['host'];
     }
-    if (array_key_exists('path', $a)) {
+    if (isset($a['path'])) {
         $result .= $a['path'];
     }
     if ($query) {

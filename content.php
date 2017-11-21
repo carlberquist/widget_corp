@@ -8,7 +8,6 @@ if (!empty($_POST["menu_name"])) {
     $position = $_POST['position'] ?? "";
     $visible = $_POST['visible'] ?? "";
     if (isset($_GET['page'])) {
-        var_dump($_POST);
         update_page($menu_name, $menu_content, $submit_id, $position, $visible, $_GET['page']);
     } elseif (isset($_GET['subject'])) {
         update_subject($menu_name, $position, $visible, $_GET['subject']);

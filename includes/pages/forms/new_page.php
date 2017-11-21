@@ -18,13 +18,19 @@
                 <p>Position:
                     <select name="position">
                         <?php 
-                        //get count all subjects, with subject_id as attribute
                         //Javascript on change submit_id, hide positions where subject_id value != subject_id attribute
-                        $page_set = get_all_pages();
+                        $page_set = get_all_pages(); 
                         foreach ($page_set as $pages){
+                            if (isset($subject_id) && $subject_id != $pages['subject_id']){
+                                $position1 = $position +1;
+                                echo "<option value={$position1} data-subject={$subject_id}>{$position1}</option>";
+                            }
                             $subject_id = $pages['subject_id'];
                             $position = $pages['position'];
                                 echo "<option value={$position} data-subject={$subject_id}>{$position}</option>";
+                        }
+                        if (isset($position1)){
+                        echo "<option value={$position1} data-subject={$subject_id}>{$position1}</option>";
                         }
                         ?>
                     </select>

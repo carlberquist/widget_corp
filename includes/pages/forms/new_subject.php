@@ -9,8 +9,12 @@
                         foreach ($subject_set as $subject) {
                            $position = $subject['position'];
                             $id = $subject['id'];
-                                echo "<option value ={$position} data-subject={$id}>{$position}</option>";
+                                echo "<option value ={$position}>{$position}</option>";
                         }
+                        if (isset($position)){
+                            $position1 = $position +1;
+                        echo "<option value ={$position1}>{$position1}</option>";
+                    }
                         ?>
                     </select>
                 </p>

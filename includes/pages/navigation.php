@@ -1,5 +1,5 @@
 <?php
-$self = basename($_SERVER['PHP_SELF']); //basename($_SERVER['PHP_SELF']);
+$self = basename($_SERVER['PHP_SELF']);
 $sel_subj = $_GET['subject'] ?? "";
 $sel_page = $_GET['page'] ?? "";
 $output = '<ul class="subjects">';

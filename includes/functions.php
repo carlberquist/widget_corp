@@ -33,7 +33,7 @@ function get_all_subjects()
 function get_all_pages()
 {
     $result_arr = array();
-    $query = "SELECT id, subject_id, menu_name, position FROM pages ORDER BY id ASC";
+    $query = "SELECT id, subject_id, menu_name, position FROM pages ORDER BY subject_id, position ASC";
     $result = do_query($query);
     while ($result_set = mysqli_fetch_assoc($result)) {
         $result_arr[] = $result_set;

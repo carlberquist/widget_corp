@@ -12,23 +12,6 @@
                             $id = $subject['id'];
                             echo "<option value ={$position} data-subject={$id}>{$menu_name}</option>";
                         }
-                        echo ("<script type='text/javascript'>
-                        document.getElementById('submit_id').addEventListener('change', function(){
-                        var submit_id = this.value;
-                        console.log(submit_id);
-                        var page_options = document.getElementById('position');
-                        for (i = 0; i < page_options.options.length; i++) {
-                            console.log(page_options.options[i].dataset.subject);
-                            if (submit_id == page_options.options[i].dataset.subject){
-                                page_options.options[i].style.visibility = 'visible';
-                            }
-                            else{
-                                page_options.options[i].style.visibility = 'hidden';
-                            }
-                        }
-                    });
-                        
-                        </script>");
                         ?>
                     </select>
                 </p>
@@ -64,3 +47,22 @@
             </form>
             <br />
             <a href="content.php">Cancel</a>
+            <script type='text/javascript'>
+                    function dropdown(){
+                        var submit_id = this.options[this.selectedIndex].dataset.subject; //get data value of currently selected option
+                        var page_options = document.getElementById('position');
+                        for (i = 0; i < page_options.options.length; i++) {
+                            if (submit_id == page_options.options[i].dataset.subject){
+                                page_options.options[i].style.display = "block"; //hide keeps original position / display removes other elements from the DOM.
+                            }
+                            else{
+                                page_options.options[i].style.display = "none";
+                            }
+                        }
+                    }
+                    document.addEventListener('DOMContentLoaded',function() {
+                        dropdown.call(document.getElementById('submit_id'));
+                        // document.querySelector('select[name="submit_id"]').onchange=dropdown; //document.querySelector gets first element that matches.
+                        document.getElementById('submit_id').addEventListener("change", dropdown, false);
+                    } ,false); //false enables event to bubble
+                        </script>

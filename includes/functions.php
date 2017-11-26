@@ -164,7 +164,10 @@ function update_max_subject_position($position, $subject_id = NULL)
 function check_required_fields($required_fields)
 {
     $fields = "";
-    foreach ($required_fields as $key => $value) {
+    if (!is_array($required_fields)) {
+        return false;
+    }
+    foreach ($required_fields as $value) {
         if (!isset($_POST[$value]) || empty($_POST[$value])) {
             if (empty($fields)) {
                 $fields = $value;
@@ -184,8 +187,11 @@ function check_field_length($required_fields, $field_legnth)
     if ($fields = check_required_fields($required_fields)) {
         return $fields;
     }
+    if (!is_array($required_fields)) {
+        return false;
+    }
     $fields = "";
-    foreach ($required_fields as $key => $value) {
+    foreach ($required_fields as $value) {
         if (strlen(trim($value)) > $field_legnth) {
             if (empty($fields)) {
                 $fields = $value;

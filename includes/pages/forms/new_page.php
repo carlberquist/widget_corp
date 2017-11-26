@@ -61,8 +61,9 @@
                         }
                     }
                     document.addEventListener('DOMContentLoaded',function() {
-                        dropdown.call(document.getElementById('submit_id'));
+                        var submit_id = document.getElementById('submit_id');
+                        dropdown.call(submit_id);
+                        submit_id.addEventListener("change", dropdown, false);
                         // document.querySelector('select[name="submit_id"]').onchange=dropdown; //document.querySelector gets first element that matches.
-                        document.getElementById('submit_id').addEventListener("change", dropdown, false);
                     } ,false); //false enables event to bubble
                         </script>

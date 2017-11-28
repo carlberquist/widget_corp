@@ -4,15 +4,15 @@
 if (!empty($_POST["menu_name"])) {
     $menu_name = $_POST['menu_name'] ?? "";
     $menu_content = $_POST['menu_content'] ?? "";
-    $submit_id = $_POST['submit_id'] ?? "";
+    $subject_id = $_POST['subject_id'] ?? "";
     $position = $_POST['position'] ?? "";
     $visible = $_POST['visible'] ?? "";
     if (isset($_GET['page'])) {
-        update_page($menu_name, $menu_content, $submit_id, $position, $visible, $_GET['page']);
+        update_page($menu_name, $menu_content, $subject_id, $position, $visible, $_GET['page']);
     } elseif (isset($_GET['subject'])) {
         update_subject($menu_name, $position, $visible, $_GET['subject']);
     } elseif (isset($_GET['addPage'])) {
-        insert_page($menu_name, $menu_content, $submit_id, $position, $visible);
+        insert_page($menu_name, $subject_id, $menu_content, $position, $visible);
     } elseif (isset($_GET['addSubject'])) {
         insert_subject($menu_name, $position, $visible);
     }

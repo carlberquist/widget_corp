@@ -1,9 +1,9 @@
 <h2>Add Page</h2>
-<form action="<?php echo add_or_update_params($_SERVER['PHP_SELF'], 'addPage'); ?>" method="post">
+<form action="<?php echo add_or_update_params($_SERVER['PHP_SELF'], 'addPage' . $_GET['addPage']); ?>" method="post">
                 <p>Page name: <input id="menu_name" type="text" name="menu_name" value="" /></p>
                 <p>Content: <textarea id="menu_content" rows="4" cols="50" name="menu_content" value=""></textarea></p>
                 <p>Subject:
-                    <select name="submit_id" id="submit_id">
+                    <select name="subject_id" id="subject_id">
                         <?php
                         $subject_set = get_all_subjects();
                         foreach ($subject_set as $subject) {
@@ -18,7 +18,7 @@
                 <p>Position:
                     <select name="position" id="position">
                         <?php 
-                        //Javascript on change submit_id, hide positions where subject_id value != subject_id attribute
+                        //Javascript on change subject_id, hide positions where subject_id value != subject_id attribute
                         $page_set = get_all_pages();
                         foreach ($page_set as $pages) {
                             if (isset($subject_id) && $subject_id != $pages['subject_id']) {
@@ -49,10 +49,12 @@
             <a href="content.php">Cancel</a>
             <script type='text/javascript'>
                     function dropdown(){
-                        var submit_id = this.options[this.selectedIndex].dataset.subject; //get data value of currently selected option
-                        var page_options = document.getElementById('position');
-                        for (i = 0; i < page_options.options.length; i++) {
-                            if (submit_id == page_options.options[i].dataset.subject){
+                        return this.options[this.selectedIndex].dataset.subject; //get data value of currently selected option
+                    }
+                    function hide_dropdown(subject, page_options){
+                        //var page_options = document.getElementById('position');
+                        for (var i = 0; i < page_options.options.length; i++) {
+                            if (subject == page_options.options[i].dataset.subject){
                                 page_options.options[i].style.display = "block"; //hide keeps original position / display removes other elements from the DOM.
                             }
                             else{
@@ -61,9 +63,15 @@
                         }
                     }
                     document.addEventListener('DOMContentLoaded',function() {
-                        var submit_id = document.getElementById('submit_id');
-                        dropdown.call(submit_id); //first option this arg, 2nd function args
-                        submit_id.addEventListener("change", dropdown, false);
-                        // document.querySelector('select[name="submit_id"]').onchange=dropdown; //document.querySelector gets first element that matches.
+                        var subject_id = document.getElementById('subject_id');
+                        var page_id = document.getElementById('position');
+                        var subject = dropdown.call(subject_id);
+                        hide_dropdown(subject, page_id);
+                        //dropdown.call(subject_id); //first option this arg, 2nd function args, 3rd function args etc
+                        subject_id.addEventListener("change", function(){
+                            subject = dropdown.call(subject_id);
+                            hide_dropdown(subject, page_id);
+                        } , false);
+                        // document.querySelector('select[name="subject_id"]').onchange=dropdown; //document.querySelector gets first element that matches.
                     } ,false); //false enables event to bubble
                         </script>

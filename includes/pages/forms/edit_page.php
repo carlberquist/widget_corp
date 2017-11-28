@@ -11,13 +11,13 @@ if ($selected = get_page_by_id()) {
 
 ?>
 <h2>Edit Page <?php echo "{$selected_page_menu_name}"; ?></h2>
-<form action="<?php echo add_or_update_params($_SERVER['PHP_SELF'], 'page', $_GET['page'] ?? ""); ?>" method="post">
+<form action="<?php echo add_or_update_params($_SERVER['PHP_SELF'], 'page', $_GET['page'] ?? ''); ?>" method="post">
     <p>Page name: <input id="menu_name" type="text" name="menu_name"
                          value="<?php echo "{$selected_page_menu_name}"; ?>"/></p>
     <p>Content: <textarea id="menu_content" rows="4" cols="50"
                           name="menu_content"><?php echo "{$selected_page_content}"; ?></textarea></p>
     <p>Subject:
-        <select name="submit_id">
+        <select name="subject_id">
             <?php
             $subject_set = get_all_subjects();
             foreach ($subject_set as $subject) {

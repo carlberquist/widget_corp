@@ -122,7 +122,7 @@ function update_max_page_position($subject_id, $position, $page_id = NULL)
     $max_position_result = mysqli_fetch_assoc($max_position_query);
     $max_position_result = $max_position_result['position'];
 
-    $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position} AND id != {$page_id}";
+    $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position}";
     $page_position = do_query($page);
 
     if (mysqli_num_rows($page_position) > 0) {

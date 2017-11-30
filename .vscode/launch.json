@@ -24,8 +24,9 @@
             "program": "${file}",
             "cwd": "${fileDirname}",
             "port": 9000,
+            "sourceMaps": true,
             "serverSourceRoot": "C:/wamp/www/widget_corp",
-            "localSourceRoot": "http://localhost:8080/widget_corp/"
+            "localSourceRoot": "http://localhost:8080/widget_corp"
         }
     ]
 }

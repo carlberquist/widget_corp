@@ -16,6 +16,7 @@ foreach ($subject_set as $subject) {
     }
     $output .= "</ul>";
 }
+if ($self == 'content.php'){
 $selected_subject = (isset($_GET['addSubject'])) ? "class = \"selected\"" : "";
 $selected_page = (isset($_GET['addPage'])) ? "class = \"selected\"" : "";
 $output .= "<br />";
@@ -23,5 +24,6 @@ $output .= "<ul class=\"subjects\">";
 $output .= "<li {$selected_subject}><a href=\"" . add_or_update_params($self, 'addSubject', 0) . "\">+ New subject</a></li>";
 $output .= "<li {$selected_page}><a {$selected_page} href=\"" . add_or_update_params($self, 'addPage', 0) . "\">+ New page</a></li>";
 $output .= "</ul>";
+}
 echo $output;
 ?>

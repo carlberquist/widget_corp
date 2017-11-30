@@ -65,13 +65,12 @@
                     document.addEventListener('DOMContentLoaded',function() {
                         var subject_id = document.getElementById('subject_id');
                         var page_id = document.getElementById('position');
-                        var subject = dropdown.call(subject_id);
+                        var subject = dropdown.call(subject_id); //first option this arg, 2nd function args, 3rd function args etc
                         hide_dropdown(subject, page_id);
-                        //dropdown.call(subject_id); //first option this arg, 2nd function args, 3rd function args etc
+                        // document.querySelector('select[name="subject_id"]').onchange=dropdown; //document.querySelector gets first element that matches. // document.querySelectors gets all elements that match
                         subject_id.addEventListener("change", function(){
                             subject = dropdown.call(subject_id);
                             hide_dropdown(subject, page_id);
                         } , false);
-                        // document.querySelector('select[name="subject_id"]').onchange=dropdown; //document.querySelector gets first element that matches.
                     } ,false); //false enables event to bubble
                         </script>

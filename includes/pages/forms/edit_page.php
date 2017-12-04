@@ -1,12 +1,19 @@
 <?php
-if ($selected = get_page_by_id()) {
-    foreach($selected as $selected_page){
-    $subject_id = $selected_page['subject_id'];
-    $selected_page_menu_name = $selected_page['menu_name'];
-    $selected_page_content = $selected_page['content'];
-    $selected_page_position = $selected_page['position'];
-    $selected_page_visible = $selected_page['visible'];
-}
+if ($pages = get_pages('id, position', $_GET['page'])) {
+    $position = array();
+    while ($page = mysqli_fetch_array($pages, MYSQLI_ASSOC)) {
+        $position[] = $page['position'];
+        if ($page['id'] == $_GET['page']) {
+            $selected = get_pages('subject_id, menu_name, content, visible', 'id = ' . $_GET['page']);
+            while ($selected_page = mysqli_fetch_array($selected, MYSQLI_ASSOC)) {
+                $subject_id = $selected_page['subject_id'];
+                $selected_page_menu_name = $selected_page['menu_name'];
+                $selected_page_content = $selected_page['content'];
+                $selected_page_position = $page['position'];
+                $selected_page_visible = $selected_page['visible'];
+            }
+        }
+    }
 }
 
 ?>
@@ -19,8 +26,8 @@ if ($selected = get_page_by_id()) {
     <p>Subject:
         <select name="subject_id">
             <?php
-            $subject_set = get_all_subjects();
-            foreach ($subject_set as $subject) {
+            $subject_set = get_subject('id ,menu_name');
+            while ($subject = mysqli_fetch_array($subject_set, MYSQLI_ASSOC)) {
                 if ($subject['id'] == $subject_id) {
                     echo "<option value =" . $subject['id'] . " selected>" . $subject['menu_name'] . "</option>";
                 } else {
@@ -33,13 +40,11 @@ if ($selected = get_page_by_id()) {
     <p>Position:
         <select name="position">
             <?php
-            $page_set = get_all_pages_for_subjects($subject_id);
-            $page_count = count($page_set);
-            for ($count = 1; $count <= $page_count; $count++) {
-                if ($count == $selected_page_position) {
-                    echo "<option value =\"{$count}\" selected>{$count}</option>";
+            foreach ($position as $pos) {
+                if ($pos == $selected_page_position) {
+                    echo "<option value =\"{$pos}\" selected>{$pos}</option>";
                 } else {
-                    echo "<option value =\"{$count}\">{$count}</option>";
+                    echo "<option value =\"{$pos}\">{$pos}</option>";
                 }
             }
             ?>

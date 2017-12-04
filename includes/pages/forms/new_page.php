@@ -5,8 +5,8 @@
                 <p>Subject:
                     <select name="subject_id" id="subject_id">
                         <?php
-                        $subject_set = get_all_subjects();
-                        foreach ($subject_set as $subject) {
+                        $subject_set = get_subject('id, menu_name, position');
+                        while ($subject = mysqli_fetch_array($subject_set, MYSQLI_ASSOC)) {
                             $position = $subject['position'];
                             $menu_name = $subject['menu_name'];
                             $id = $subject['id'];
@@ -19,8 +19,8 @@
                     <select name="position" id="position">
                         <?php 
                         //Javascript on change subject_id, hide positions where subject_id value != subject_id attribute
-                        $page_set = get_all_pages();
-                        foreach ($page_set as $pages) {
+                        $page_set = get_pages('subject_id, position');
+                        while ($pages = mysqli_fetch_array($page_set, MYSQLI_ASSOC)) {
                             if (isset($subject_id) && $subject_id != $pages['subject_id']) {
                                 $position1 = $position + 1;
                                 echo "<option value={$position1} data-subject={$subject_id}>{$position1}</option>";

@@ -12,7 +12,7 @@ function do_query($query)
         }
     } else if (stristr($query, 'UPDATE') || stristr($query, 'INSERT')) {
         if (mysqli_query($connection, $query)) {
-            return true;
+            return mysqli_affected_rows($connection); //>0
         } else {
             echo ("Query not complete " . mysqli_error($connection));
             exit;
@@ -20,68 +20,37 @@ function do_query($query)
     }
     return false;
 }
-function get_all_subjects()
-{
-    $result_arr = array();
-    $query = "SELECT id, menu_name, position FROM subjects ORDER BY position ASC";
-    $result = do_query($query);
-    while ($result_set = mysqli_fetch_assoc($result)) {
-        $result_arr[] = $result_set;
-    }
-    return $result_arr;
-}
-function get_all_pages()
-{
-    $result_arr = array();
-    $query = "SELECT id, subject_id, menu_name, position FROM pages ORDER BY subject_id, position ASC";
-    $result = do_query($query);
-    while ($result_set = mysqli_fetch_assoc($result)) {
-        $result_arr[] = $result_set;
-    }
-    return $result_arr;
-}
-function get_all_pages_for_subjects($subject_id)
-{
-    if (!empty($subject_id)) {
-        $result_array = array();
-        $query = "SELECT id, menu_name FROM pages WHERE subject_id = {$subject_id} ORDER BY position ASC";
-        $result = do_query($query);
-        while ($result_set = mysqli_fetch_array($result)) {
-            $result_array[] = $result_set;
-        }
-        return $result_array;
-    }
-    return false;
-}
-function get_subject_by_id()
-{
-    if (isset($_GET['subject'])) {
-        $subject_id = $_GET['subject'];
-        $query = "SELECT menu_name, position, visible FROM subjects WHERE id = {$subject_id} LIMIT 1";
-        $result_set = do_query($query);
-        if ($subject = mysqli_fetch_array($result_set)) {
-            return $subject;
-        } else {
-            echo "No subject found";
-            exit;
-        }
-    }
-    return false;
-}
-function get_page_by_id()
-{
-    if (isset($_GET['page'])) {
-        $page_id = $_GET['page'];
-        $subj_array = array();
-        $query = "SELECT menu_name, subject_id, content, position, visible FROM pages WHERE id = {$page_id} LIMIT 1";
-        $result_set = do_query($query);
 
-        while ($subject = mysqli_fetch_array($result_set)) {
-            $subj_array[] = $subject;
-        }
-        return $subj_array;
+/**
+ *  Returns selected columns from pages 
+ * 
+ * @param string $field (optional) Table structure.  id, subject_id, menu_name, position, visible, content
+ * @param string $where (optional) "column name = value"
+ * @return object mysqli
+ */
+function get_pages($field = "*", $where = NULL)
+{
+    if ($where) {
+        $query = "SELECT {$field} FROM pages WHERE {$where} ORDER BY subject_id, position ASC";
+    } else {
+        $query = "SELECT {$field} FROM pages ORDER BY subject_id, position ASC";
     }
-    return false;
+    $result = do_query($query);
+    return $result;
+}
+/**
+ * @param string $field = id, menu_name, position, visible
+ * @return object mysqli
+ */
+function get_subject($field = '*', $where = NULL)
+{
+    if ($where) {
+        $query = "SELECT {$field} FROM subjects WHERE {$where} ORDER BY position ASC";
+    } else {
+        $query = "SELECT {$field} FROM subjects ORDER BY position ASC";
+    }
+    $result = do_query($query);
+    return $result;
 }
 function insert_subject($menu_name, $position, $visible)
 {
@@ -119,7 +88,7 @@ function update_max_page_position($subject_id, $position, $page_id = NULL)
 {
     $max_position = "SELECT MAX(position) AS position FROM pages WHERE subject_id = {$subject_id}";
     $max_position_query = do_query($max_position);
-    $max_position_result = mysqli_fetch_assoc($max_position_query);
+    $max_position_result = mysqli_fetch_array($max_position_query, MYSQLI_ASSOC);
     $max_position_result = $max_position_result['position'];
 
     $page = "SELECT position FROM pages WHERE subject_id = {$subject_id} AND position = {$position}";
@@ -142,7 +111,7 @@ function update_max_subject_position($position, $subject_id = NULL)
 {
     $max_position = "SELECT MAX(position) AS position FROM subjects";
     $max_position_query = do_query($max_position);
-    $max_position_result = mysqli_fetch_assoc($max_position_query);
+    $max_position_result = mysqli_fetch_array($max_position_query, MYSQLI_ASSOC);
     $max_position_result = $max_position_result['position'];
 
     $page = "SELECT position FROM subjects WHERE position = {$position} AND id != {$subject_id}";

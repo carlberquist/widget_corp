@@ -9,6 +9,11 @@
         <td id="page">
         <h2>Main Widget page</h2>
             <?php
+            //TODO Protect content.php and edit pages
+            //TODO add parser for different Serized elements
+            //TODO Json encode content with field type, bootstrap width, id and value 
+            //TODO JSON decode fields on to page <div data-side="front" data-params="php echo htmlspecialchars(json_encode($dataParams), ENT_QUOTES, 'UTF-8');">  
+            //TODO add MySQL counts and clean up functions
             if (isset($_GET['subject'])) {
                 include("includes/pages/forms/view_subject.php");
             } elseif (isset($_GET['page'])) {
